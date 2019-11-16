@@ -49,10 +49,14 @@ func Parse(classData []byte) (cf *ClassFile, err error) {
 
 	cr := &ClassReader{classData}
 	cf = &ClassFile{}
-	cf.read(cr)
+	cf.read(cr) //这里go为啥不能可以调用read方法，read方法并没有放在ClassFile中Struct；go语言和java的区分
 	return
 }
 
+/**
+这个方式是read是实现了classfile读取字节码的方法
+如果知道constanPool、accessFlags、thisClass,superClass,interfaces,fields,methods,attributes
+*/
 func (self *ClassFile) read(reader *ClassReader) {
 	self.readAndCheckMagic(reader)
 	self.readAndCheckVersion(reader)
@@ -88,6 +92,9 @@ func (self *ClassFile) readAndCheckVersion(reader *ClassReader) {
 	panic("java.lang.UnsupportedClassVersionError!")
 }
 
+/**
+下列就是获取classfile中的所有内容的方法，没有像java中那样要直接set和get
+*/
 func (self *ClassFile) MinorVersion() uint16 {
 	return self.minorVersion
 }

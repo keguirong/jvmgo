@@ -15,8 +15,12 @@ type BootstrapMethodsAttribute struct {
 	bootstrapMethods []*BootstrapMethod
 }
 
+/**
+读取16bit的数据，但是为什么
+*/
 func (self *BootstrapMethodsAttribute) readInfo(reader *ClassReader) {
 	numBootstrapMethods := reader.readUint16()
+	//这里应该是初始化bootstrapMethods的数据
 	self.bootstrapMethods = make([]*BootstrapMethod, numBootstrapMethods)
 	for i := range self.bootstrapMethods {
 		self.bootstrapMethods[i] = &BootstrapMethod{
